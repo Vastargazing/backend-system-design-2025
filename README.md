@@ -1,6 +1,6 @@
 # 📚 System Design для банковских и маркетплейс собеседований
 
-<img width="800" height="800" alt="Image" src="https://github.com/user-attachments/assets/bcc7c46f-98a5-415e-a232-7c5dde6a1267" />
+<img width="800" height="800" alt="Image" src="https://github.com/user-attachments/assets/32f798f7-bcf1-430a-acd1-a69b98fd75c6" />
 
 ### 🎯 Топ-5 тем системного дизайна для собеседований 2025
 
