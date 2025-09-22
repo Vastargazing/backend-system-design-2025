@@ -148,14 +148,14 @@
 graph TB
     App[Приложение] --> LB[Load Balancer]
     
-    LB --> |Запросы записи| Master[(Master DB<br/>Запись + Чтение)]
-    LB --> |Запросы чтения| Slave1[(Slave 1<br/>Только чтение)]
-    LB --> |Запросы чтения| Slave2[(Slave 2<br/>Только чтение)]
-    LB --> |Запросы чтения| Slave3[(Slave 3<br/>Только чтение)]
+    LB -->|"Запросы записи"| Master[(Master DB<br/>Запись + Чтение)]
+    LB -->|"Запросы чтения"| Slave1[(Slave 1<br/>Только чтение)]
+    LB -->|"Запросы чтения"| Slave2[(Slave 2<br/>Только чтение)]
+    LB -->|"Запросы чтения"| Slave3[(Slave 3<br/>Только чтение)]
     
-    Master -.-> |Репликация<br/>лаг ~2сек| Slave1
-    Master -.-> |Репликация<br/>лаг ~2сек| Slave2
-    Master -.-> |Репликация<br/>лаг ~2сек| Slave3
+    Master -.->|"Репликация<br/>лаг ~2сек"| Slave1
+    Master -.->|"Репликация<br/>лаг ~2сек"| Slave2
+    Master -.->|"Репликация<br/>лаг ~2сек"| Slave3
     
     style Master fill:#ff9800
     style Slave1 fill:#4caf50
@@ -242,9 +242,9 @@ sequenceDiagram
 graph TB
     Client[Клиентское приложение] --> Router[Shard Router]
     
-    Router --> |hash(user_id) % 3 = 0| Shard1[Шард 1<br/>Users: 1,4,7,10...]
-    Router --> |hash(user_id) % 3 = 1| Shard2[Шард 2<br/>Users: 2,5,8,11...]
-    Router --> |hash(user_id) % 3 = 2| Shard3[Шард 3<br/>Users: 3,6,9,12...]
+    Router -->|"hash(user_id) mod 3 = 0"| Shard1[Шард 1<br/>Users: 1,4,7,10...]
+    Router -->|"hash(user_id) mod 3 = 1"| Shard2[Шард 2<br/>Users: 2,5,8,11...]
+    Router -->|"hash(user_id) mod 3 = 2"| Shard3[Шард 3<br/>Users: 3,6,9,12...]
     
     Shard1 --> DB1[(PostgreSQL<br/>Shard 1)]
     Shard2 --> DB2[(PostgreSQL<br/>Shard 2)]
@@ -259,13 +259,13 @@ graph TB
 
 ```mermaid
 graph TB
-    Router[Router] --> |Москва: 80% запросов| HotShard[Горячий шард<br/>Москва и СПб<br/>🔥 Перегружен]
-    Router --> |Регионы: 10% запросов| ColdShard1[Холодный шард<br/>Сибирь<br/>❄️ Недогружен]
-    Router --> |Регионы: 10% запросов| ColdShard2[Холодный шард<br/>Урал<br/>❄️ Недогружен]
+    Router[Router] -->|"Москва: 80% запросов"| HotShard[Горячий шард<br/>Москва и СПб<br/>🔥 Перегружен]
+    Router -->|"Регионы: 10% запросов"| ColdShard1[Холодный шард<br/>Сибирь<br/>❄️ Недогружен]
+    Router -->|"Регионы: 10% запросов"| ColdShard2[Холодный шард<br/>Урал<br/>❄️ Недогружен]
     
-    HotShard --> |CPU: 95%| DB1[(Перегружен)]
-    ColdShard1 --> |CPU: 15%| DB2[(Простаивает)]
-    ColdShard2 --> |CPU: 20%| DB3[(Простаивает)]
+    HotShard -->|"CPU: 95%"| DB1[(Перегружен)]
+    ColdShard1 -->|"CPU: 15%"| DB2[(Простаивает)]
+    ColdShard2 -->|"CPU: 20%"| DB3[(Простаивает)]
     
     style HotShard fill:#ffcdd2
     style ColdShard1 fill:#e3f2fd
@@ -389,13 +389,13 @@ graph TB
 graph TB
     Client[Клиенты] --> LB[Load Balancer<br/>NGINX/HAProxy]
     
-    LB --> |Health: OK ✅| Server1[Server 1<br/>CPU: 60%]
-    LB --> |Health: FAIL ❌| Server2[Server 2<br/>CPU: 95% - медленный]
-    LB --> |Health: OK ✅| Server3[Server 3<br/>CPU: 45%]
+    LB -->|"Health: OK ✅"| Server1[Server 1<br/>CPU: 60%]
+    LB -->|"Health: FAIL ❌"| Server2[Server 2<br/>CPU: 95% - медленный]
+    LB -->|"Health: OK ✅"| Server3[Server 3<br/>CPU: 45%]
     
-    LB -.-> |Health check<br/>каждые 30сек| Server1
-    LB -.-> |Health check<br/>TIMEOUT| Server2
-    LB -.-> |Health check<br/>каждые 30сек| Server3
+    LB -.->|"Health check<br/>каждые 30сек"| Server1
+    LB -.->|"Health check<br/>TIMEOUT"| Server2
+    LB -.->|"Health check<br/>каждые 30сек"| Server3
     
     style Server1 fill:#4caf50
     style Server2 fill:#f44336
@@ -407,8 +407,8 @@ graph TB
 
 ```mermaid
 graph TB
-    LB[Load Balancer] --> |Вес: 3<br/>75% трафика| PowerServer[Мощный сервер<br/>16 CPU, 64GB RAM]
-    LB --> |Вес: 1<br/>25% трафика| WeakServer[Слабый сервер<br/>4 CPU, 16GB RAM]
+    LB[Load Balancer] -->|"Вес: 3<br/>75% трафика"| PowerServer[Мощный сервер<br/>16 CPU, 64GB RAM]
+    LB -->|"Вес: 1<br/>25% трафика"| WeakServer[Слабый сервер<br/>4 CPU, 16GB RAM]
     
     style PowerServer fill:#4caf50
     style WeakServer fill:#ff9800
@@ -574,9 +574,9 @@ graph TB
     User2[Пользователь в СПб] --> Edge2[CDN Edge<br/>Санкт-Петербург]
     User3[Пользователь в Казани] --> Edge3[CDN Edge<br/>Казань]
     
-    Edge1 --> |Cache MISS| Origin[Origin Server<br/>Основной сервер<br/>Москва]
-    Edge2 --> |Cache MISS| Origin
-    Edge3 --> |Cache MISS| Origin
+    Edge1 -->|"Cache MISS"| Origin[Origin Server<br/>Основной сервер<br/>Москва]
+    Edge2 -->|"Cache MISS"| Origin
+    Edge3 -->|"Cache MISS"| Origin
     
     Origin --> S3[AWS S3<br/>Static Assets<br/>images, CSS, JS]
     
@@ -597,9 +597,9 @@ graph TD
     Developer[Разработчик] --> Deploy[Deploy новой версии]
     Deploy --> Version[Обновить версии файлов]
     
-    Version --> |v1.2.3| CSS[styles.v1.2.3.css]
-    Version --> |v1.2.3| JS[app.v1.2.3.js]
-    Version --> |v1.2.3| IMG[logo.v1.2.3.png]
+    Version -->|"v1.2.3"| CSS[styles.v1.2.3.css]
+    Version -->|"v1.2.3"| JS[app.v1.2.3.js]
+    Version -->|"v1.2.3"| IMG[logo.v1.2.3.png]
     
     CSS --> CDN[CDN обновляет кэш]
     JS --> CDN
@@ -865,16 +865,16 @@ sequenceDiagram
 graph TD
     A[Начало транзакции] --> B[1. Резервирование средств на счёте отправителя]
     B --> C{Успешно?}
-    C -->|Да| D[2. Списание с счёта отправителя]
-    C -->|Нет| E[Завершение: Недостаточно средств]
+    C -->|"Да"| D[2. Списание с счёта отправителя]
+    C -->|"Нет"| E[Завершение: Недостаточно средств]
     
     D --> F{Успешно?}
-    F -->|Да| G[3. Зачисление на счёт получателя]
-    F -->|Нет| H[Компенсация: Отменить резерв]
+    F -->|"Да"| G[3. Зачисление на счёт получателя]
+    F -->|"Нет"| H[Компенсация: Отменить резерв]
     
     G --> I{Успешно?}
-    I -->|Да| J[4. Подтверждение операции]
-    I -->|Нет| K[Компенсация: Возврат средств отправителю]
+    I -->|"Да"| J[4. Подтверждение операции]
+    I -->|"Нет"| K[Компенсация: Возврат средств отправителю]
     
     H --> E
     K --> L[Отменить списание и резерв]
@@ -896,8 +896,8 @@ graph TD
     E --> G
     F --> G
     
-    G -->|Да| H[Фаза 2: Commit]
-    G -->|Нет| I[Фаза 2: Abort]
+    G -->|"Да"| H[Фаза 2: Commit]
+    G -->|"Нет"| I[Фаза 2: Abort]
     
     H --> J[Отправка COMMIT всем]
     I --> K[Отправка ABORT всем]
@@ -958,10 +958,10 @@ graph TB
 
 ```mermaid
 graph TB
-    Event1[Event: user_id=123] --> |hash(123) % 3 = 0| Partition0[Partition 0<br/>Consumer A]
-    Event2[Event: user_id=456] --> |hash(456) % 3 = 1| Partition1[Partition 1<br/>Consumer B]
-    Event3[Event: user_id=789] --> |hash(789) % 3 = 2| Partition2[Partition 2<br/>Consumer C]
-    Event4[Event: user_id=123] --> |hash(123) % 3 = 0| Partition0
+    Event1[Event: user_id=123] -->|"hash(123) mod 3 = 0"| Partition0[Partition 0<br/>Consumer A]
+    Event2[Event: user_id=456] -->|"hash(456) mod 3 = 1"| Partition1[Partition 1<br/>Consumer B]
+    Event3[Event: user_id=789] -->|"hash(789) mod 3 = 2"| Partition2[Partition 2<br/>Consumer C]
+    Event4[Event: user_id=123] -->|"hash(123) mod 3 = 0"| Partition0
     
     Partition0 --> Order1[События user_id=123<br/>обрабатываются<br/>в правильном порядке]
     Partition1 --> Order2[События user_id=456<br/>обрабатываются<br/>в правильном порядке]
@@ -980,11 +980,11 @@ graph TD
     Topic --> Consumer[Event Consumer]
     
     Consumer --> Success{Обработка<br/>успешна?}
-    Success -->|Да| Complete[Acknowledge]
-    Success -->|Нет| Retry{Retry < 3?}
+    Success -->|"Да"| Complete[Acknowledge]
+    Success -->|"Нет"| Retry{Retry < 3?}
     
-    Retry -->|Да| Consumer
-    Retry -->|Нет| DLQ[Dead Letter Queue]
+    Retry -->|"Да"| Consumer
+    Retry -->|"Нет"| DLQ[Dead Letter Queue]
     
     DLQ --> Manual[Ручная обработка<br/>или расследование]
     
